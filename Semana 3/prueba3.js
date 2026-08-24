@@ -1,8 +1,4 @@
 //Creación de elementos en html, con JavaScript
-
-//limpiar body
-document.body.innerHTML = "";
-
 //crear título
 let titulo = document.createElement("h2");
 
@@ -61,6 +57,7 @@ const responseAPI = {
         }
     ]
 };
+
 
 //creación de select
 let seleccion = document.createElement("select");
@@ -135,10 +132,48 @@ boton.addEventListener("click",() =>
         }
     }
 );
+//titulo de la tabla
+let tituloTabla = document.createElement("h3");
+tituloTabla.innerText = "Tabla de Productos";
+document.body.appendChild(tituloTabla);
+
+//crear tabla
+let tabla = document.createElement("table");
+tabla.setAttribute("border", "1");
+//cabeza
+tabla.innerHTML = `
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Tipo</th>
+        </tr>
+    </thead>
+`;
+
+//cuerpo de la tabla
+let tbody = document.createElement("tbody");
+
+responseAPI.data.forEach(producto => {
+
+    let fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${producto.id}</td>
+        <td>${producto.nombre}</td>
+        <td>${producto.precio}</td>
+        <td>${producto.tipo}</td>
+    `;
+
+    tbody.appendChild(fila);
+});
+
+tabla.appendChild(tbody);
+document.body.appendChild(tabla);
+
 
 // Orientación a objectos con JavaScript
-
-
 // Crear un objeto producto
 
 const producto = {
@@ -150,7 +185,6 @@ const producto = {
 
 console.log("Producto original:");
 console.log(producto);
-
 //acceder a propiedades
 console.log(producto.nombre);
 console.log(producto.precio);
