@@ -1,10 +1,10 @@
-//Generación de elementos HTML usando JavaScript
+//Creación de elementos en html, con JavaScript
 
-//dejar el body vacío
+//limpiar body
 document.body.innerHTML = "";
 
-//generar encabezado
-let encabezado = document.createElement("h2");
+//crear título
+let titulo = document.createElement("h2");
 
 encabezado.innerText = "Ejemplo de creación de elementos via JavaScript";
 document.body.appendChild(encabezado);
@@ -61,6 +61,7 @@ const datosAPI = {
         }
     ]
 };
+
 
 //crear lista desplegable
 let listaProductos = document.createElement("select");
@@ -133,13 +134,53 @@ btnMostrar.addEventListener("click",() =>
         }
     }
 );
+//titulo de la tabla
+let tituloTabla = document.createElement("h3");
+tituloTabla.innerText = "Tabla de Productos";
+document.body.appendChild(tituloTabla);
+
+//crear tabla
+let tabla = document.createElement("table");
+tabla.setAttribute("border", "1");
+//cabeza
+tabla.innerHTML = `
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Tipo</th>
+        </tr>
+    </thead>
+`;
+
+//cuerpo de la tabla
+let tbody = document.createElement("tbody");
+
+responseAPI.data.forEach(producto => {
+
+    let fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${producto.id}</td>
+        <td>${producto.nombre}</td>
+        <td>${producto.precio}</td>
+        <td>${producto.tipo}</td>
+    `;
+
+    tbody.appendChild(fila);
+});
+
+tabla.appendChild(tbody);
+document.body.appendChild(tabla);
 
 
-//Trabajo con objetos en JavaScript
+// Orientación a objectos con JavaScript
 
 
-//definir un objeto de producto
-const articulo = {
+// Crear un objeto producto
+
+const producto = {
     id: "1",
     nombre: "Auto",
     precio: 1000,
@@ -147,7 +188,7 @@ const articulo = {
 };
 
 console.log("Producto original:");
-console.log(articulo);
+console.log(producto);
 
 //acceder a propiedades
 console.log(articulo.nombre);
