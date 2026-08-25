@@ -1,30 +1,34 @@
 //Creación de elementos en html, con JavaScript
+
+//limpiar body
+document.body.innerHTML = "";
+
 //crear título
 let titulo = document.createElement("h2");
 
-titulo.innerText = "Ejemplo de creación de elementos via JavaScript";
-document.body.appendChild(titulo);
+encabezado.innerText = "Ejemplo de creación de elementos via JavaScript";
+document.body.appendChild(encabezado);
 
-//crear cuadro de texto
-let subtitulo = document.createElement("h3");
-subtitulo.innerText = "Cambiar texto via input y mostrar objetos"
-document.body.appendChild(subtitulo);
+//generar campo para escribir
+let descripcion = document.createElement("h3");
+descripcion.innerText = "Cambiar texto via input y mostrar objetos"
+document.body.appendChild(descripcion);
 
-let texto = document.createElement("input");
+let entrada = document.createElement("input");
 
-texto.setAttribute("type", "text");
-texto.setAttribute("value", "Hola Mundo");
-texto.setAttribute("name", "txtMensaje");
-texto.setAttribute("id", "txtMensaje");
+entrada.setAttribute("type", "text");
+entrada.setAttribute("value", "Hola Mundo");
+entrada.setAttribute("name", "txtMensaje");
+entrada.setAttribute("id", "txtMensaje");
 
-document.body.appendChild(texto);
+document.body.appendChild(entrada);
 
 document.body.appendChild(document.createElement("br"));
 document.body.appendChild(document.createElement("br"));
 document.body.appendChild(document.createElement("br"));
 
-//simulación de respuesta de una API
-const responseAPI = {
+//datos simulados recibidos desde una API
+const datosAPI = {
     "status": 200,
     "message": "Productos Obtenidos",
     "data": [
@@ -59,76 +63,74 @@ const responseAPI = {
 };
 
 
-//creación de select
-let seleccion = document.createElement("select");
-seleccion.setAttribute("name", "seleccion");
-seleccion.setAttribute("id", "seleccion");
+//crear lista desplegable
+let listaProductos = document.createElement("select");
+listaProductos.setAttribute("name", "seleccion");
+listaProductos.setAttribute("id", "seleccion");
 
-//opcion inicial
-let opcionInicial = document.createElement("option");
-opcionInicial.setAttribute("value", "");
-opcionInicial.innerText = "Seleccione un producto"; 
-seleccion.appendChild(opcionInicial);
+//opción por defecto
+let primeraOpcion = document.createElement("option");
+primeraOpcion.setAttribute("value", "");
+primeraOpcion.innerText = "Seleccione un producto"; 
+listaProductos.appendChild(primeraOpcion);
 
-//recorrer productos de la API
+//pasar por cada producto disponible
+datosAPI.data.forEach((producto) => {
 
-responseAPI.data.forEach((producto) => {
+    let nuevaOpcion = document.createElement("option");
 
-    let optionAux = document.createElement("option");
+    //guardar el identificador en value
+    nuevaOpcion.setAttribute("value", producto.id);
 
-    //el value guarda el ID
-    optionAux.setAttribute("value", producto.id);
+    //indicar el producto en la opción
+    nuevaOpcion.innerText = producto.nombre; 
 
-    //mostramos nombre y precio
-    optionAux.innerText = producto.nombre; 
-
-    //agregar option al select
-    seleccion.appendChild(optionAux);
+    //incorporar la opción a la lista
+    listaProductos.appendChild(nuevaOpcion);
 });
 
-
-//agregar select al documento
-document.body.appendChild(seleccion);
+//añadir la lista al documento
+document.body.appendChild(listaProductos);
 document.body.appendChild(document.createElement("br"));
 document.body.appendChild(document.createElement("br"));
 
-//creación de button
-let boton = document.createElement("button");
-boton.innerText = "Mostrar selección";
-document.body.appendChild(boton);
+//generar botón de acción
+let btnMostrar = document.createElement("button");
+btnMostrar.innerText = "Mostrar selección";
+document.body.appendChild(btnMostrar);
 
-//mostrar resultado
-let resultado = document.createElement("p");
-document.body.appendChild(resultado);
+//preparar espacio para el resultado
+let salida = document.createElement("p");
+document.body.appendChild(salida);
 
-//evento de presionar el boton
-boton.addEventListener("click",() => 
+//evento al hacer clic
+btnMostrar.addEventListener("click",() => 
     {
-        // Obtener texto escrito
-        let mensaje = texto.value;
+        //leer el contenido del input
+        let mensaje = entrada.value;
 
-        // Obtener ID seleccionado
-        let idSeleccionado = seleccion.value;
+        //leer el ID elegido
+        let idSeleccionado = listaProductos.value;
 
-        // Verificar que se haya seleccionado algo
+        //comprobar que exista una selección
         if (idSeleccionado === "") {
-            resultado.innerText = "Seleccione un producto por favor.";
+            salida.innerText = "Seleccione un producto por favor.";
         } else {
 
-            // Buscar el producto según su ID
-            let productoSeleccionado = responseAPI.data.find((producto) =>
+            //localizar el producto mediante su ID
+            let productoElegido = datosAPI.data.find((producto) =>
                         producto.id === idSeleccionado);
 
-            // Mostrar los datos
-            resultado.innerText = "Texto: " + mensaje +
+            //presentar la información obtenida
+            salida.innerText = "Texto: " + mensaje +
                 " | ID: " +
-                productoSeleccionado.id +
+                productoElegido.id +
                 " | Producto: " +
-                productoSeleccionado.nombre +
+                productoElegido.nombre +
                 " | Precio: $" +
-                productoSeleccionado.precio +
+                productoElegido.precio +
                 " | tipo: " +
-                productoSeleccionado.tipo;
+                productoElegido.tipo;
         }
     }
 );
@@ -174,6 +176,8 @@ document.body.appendChild(tabla);
 
 
 // Orientación a objectos con JavaScript
+
+
 // Crear un objeto producto
 
 const producto = {
@@ -185,110 +189,111 @@ const producto = {
 
 console.log("Producto original:");
 console.log(producto);
+
 //acceder a propiedades
-console.log(producto.nombre);
-console.log(producto.precio);
+console.log(articulo.nombre);
+console.log(articulo.precio);
 
 //también podemos utilizar []
-console.log(producto["nombre"]);
+console.log(articulo["nombre"]);
 
 //agregar una nueva propiedad
-producto.cantidad = 20;
+articulo.cantidad = 20;
 console.log("Producto cantidad:");
-console.log(producto);
+console.log(articulo);
 
 
 //modificar una propiedad
-producto.precio = 1600;
+articulo.precio = 1600;
 
 console.log("Producto con nuevo precio:");
-console.log(producto);
+console.log(articulo);
 
 //eliminar una propiedad
-delete producto.cantidad;
+delete articulo.cantidad;
 console.log("Producto después de eliminar cantidad:");
-console.log(producto);
+console.log(articulo);
 
-//spread Operator
-const productoActualizado = {
-    ...producto,
+//operador Spread
+const articuloActualizado = {
+    ...articulo,
     oferta: true,
     descuento: 10
 };
 
 console.log("Producto actualizado:");
-console.log(productoActualizado);
+console.log(articuloActualizado);
 
-//crear otro objeto
-const proveedor = {
-    nombreProveedor: "Transportes del Norte",
-    ciudad: "Valparaíso"
+//definir un segundo objeto
+const distribuidor = {
+    nombreProveedor: "Logística del Pacífico",
+    ciudad: "Concepción"
 };
 
 console.log("Proveedor:");
-console.log(proveedor);
+console.log(distribuidor);
 
-//fusionar objetos con Object.assign
+//combinar objetos mediante Object.assign
 const fusion = Object.assign(
     {}, 
-    productoActualizado,
-    proveedor
+    articuloActualizado,
+    distribuidor
 );
 
 console.log("Fusión con Object.assign:");
 console.log(fusion);
 
-//fusionar utilizando Spread
-const fusionSpread = {
-    ...productoActualizado,
-    ...proveedor
+//combinar usando Spread
+const mezclaSpread = {
+    ...articuloActualizado,
+    ...distribuidor
 };
 
 console.log("Fusión utilizando Spread:");
-console.log(fusionSpread);
+console.log(mezclaSpread);
 
-//composición
-const composicion = {
-    productoActualizado,
-    proveedor
+//crear una composición de objetos
+const conjunto = {
+    articuloActualizado,
+    distribuidor
 };
 
 console.log("Composición:");
-console.log(composicion);
+console.log(conjunto);
 
-//acceder a objetos internos
-console.log(composicion.productoActualizado.nombre);
-console.log(composicion.proveedor.nombreProveedor);
+//consultar propiedades de objetos internos
+console.log(conjunto.articuloActualizado.nombre);
+console.log(conjunto.distribuidor.nombreProveedor);
 
-//for...in
+//recorrido mediante for...in
 console.log("Recorrido con for...in:");
 
-for (let propiedad in productoActualizado) {
-    console.log(propiedad, productoActualizado[propiedad]);
+for (let propiedad in articuloActualizado) {
+    console.log(propiedad, articuloActualizado[propiedad]);
 }
 
-//Object.keys()
+//obtener las claves con Object.keys()
 console.log("Claves:");
-Object.keys(productoActualizado).forEach((clave) => {
+Object.keys(articuloActualizado).forEach((clave) => {
     console.log(clave);
 });
 
-//Object.values()
+//obtener los valores con Object.values()
 console.log("Valores:");
-Object.values(productoActualizado).forEach((valor) => {
+Object.values(articuloActualizado).forEach((valor) => {
     console.log(valor);
 });
 
-//Object.entries()
+//obtener pares clave-valor con Object.entries()
 console.log("Claves y valores:");
-Object.entries(productoActualizado).forEach(([clave, valor]) => {
+Object.entries(articuloActualizado).forEach(([clave, valor]) => {
         console.log(`Clave: ${clave}, Valor: ${valor}`);
     }
 );
 
-//recorrer objetos dentro de otros objetos
+//recorrer los objetos contenidos en otro objeto
 console.log("Recorrido de la composición:");
-Object.entries(composicion).forEach(([nombreObjeto, objetoInterno]) => {
+Object.entries(conjunto).forEach(([nombreObjeto, objetoInterno]) => {
         console.log("Objeto:",nombreObjeto);
         Object.entries(objetoInterno).forEach(([clave, valor]) => {
                 console.log(`${clave}: ${valor}`);
