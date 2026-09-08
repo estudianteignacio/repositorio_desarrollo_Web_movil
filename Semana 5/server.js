@@ -53,8 +53,38 @@ const resolvers = {
             } else {
                 return usuarioBus;
             }
-        }
+        },
 
+
+        async getProductos(obj) {
+            const productos = await Producto.find();
+            return productos;
+        },
+
+        async getProductoById(obj, { id }) {
+            const productoBus = await Producto.findById(id);
+
+            if (productoBus == null) {
+                return null;
+            } else {
+                return productoBus;
+            }
+        },
+
+        async getPedidos(obj) {
+            const pedidos = await Pedido.find();
+            return pedidos;
+        },
+
+        async getPedidoById(obj, { id }) {
+            const pedidoBus = await Pedido.findById(id);
+
+            if (pedidoBus == null) {
+                return null;
+            } else {
+                return pedidoBus;
+            }
+        }
     },
 
     Mutation: {
@@ -73,6 +103,41 @@ const resolvers = {
 
             return {
                 message: "Usuario Eliminado"
+            };
+        },
+
+        async addProducto(obj, { input }) {
+
+            const producto = new Producto(input);
+
+            await producto.save();
+            
+            return producto;
+        },
+
+        async delProducto(obj, { id }) {
+            await Producto.deleteOne({ _id: id });
+
+            return {
+                message: "Producto Eliminado"
+            };
+        },
+
+
+        async addPedido(obj, { input }) {
+
+            const pedido = new Pedido(input);
+
+            await pedido.save();
+
+            return pedido;
+        },
+
+        async delPedido(obj, { id }) {
+            await Pedido.deleteOne({ _id: id });
+
+            return {
+                message: "Pedido Eliminado"
             };
         }
 
