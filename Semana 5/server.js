@@ -5,6 +5,9 @@ const cors = require('cors');
 const { ApolloServer, gql } = require('apollo-server-express');
 const Usuario = require('./models/usuario');
 
+console.log(typeof Usuario);
+console.log(Usuario);
+
 mongoose.connect('mongodb://localhost:27017/bdunab2');
 
 const typeDefs = gql`
@@ -57,13 +60,11 @@ const resolvers = {
     Mutation: {
 
         async addUsuario(obj, { input }) {
-            const usuario = new Usuario(input);
-            await usuario.save();
-            return usuario;
-        },
 
-        async updUsuario(obj, { id, input }) {
-            const usuario = await Usuario.findByIdAndUpdate(id, input);
+            const usuario = new Usuario(input);
+
+            await usuario.save();
+
             return usuario;
         },
 
