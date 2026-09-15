@@ -1,42 +1,63 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-
 const { ApolloServer, gql } = require('apollo-server-express');
 const Usuario = require('./models/usuario');
-
+const Producto = require('./models/producto');
 console.log(typeof Usuario);
 console.log(Usuario);
-
 mongoose.connect('mongodb://localhost:27017/bdunab2');
 
 const typeDefs = gql`
+    enum Rol {
+        ADMIN
+        CLIENTE
+    }
     type Usuario{
         nombre: String!
         pass: String!
+        rol: Rol!
     }
-
     input UsuarioInput{
         nombre: String!
         pass: String!
+        rol: Rol!
+    }
+    type Producto{
+        nombre: String!
+        descripcion: String!
+        precio: Float!
+        stock: Int!
+        imagen: String
     }
 
+    input ProductoInput{
+        nombre: String!
+        descripcion: String!
+        precio: Float!
+        stock: Int!
+        imagen: String
+    }
     type Alert{
         message: String
     }
-
     type Query{
+    
         getUsuarios: [Usuario]
         getUsuariosById(id: ID!): Usuario
+        login(
+            nombre: String!,
+            pass: String!
+            ): Usuario
+        getProductos: [Producto]
     }
-
     type Mutation{
         addUsuario(input: UsuarioInput): Usuario
         updUsuario(id: ID!, input: UsuarioInput): Usuario
         delUsuario(id: ID!): Alert
+        addProducto(input: ProductoInput): Producto
     }
 `;
-
 const resolvers = {
     Query: {
 
@@ -55,46 +76,26 @@ const resolvers = {
             }
         },
 
+        async login(obj, { nombre, pass }) {
+            const usuario = await Usuario.findOne({
+                nombre,
+                pass
+            });
 
-        async getProductos(obj) {
-            const productos = await Producto.find();
-            return productos;
+            return usuario;
+        },
+        async getProductos() {
+        const productos = await Producto.find();
+        return productos;
         },
 
-        async getProductoById(obj, { id }) {
-            const productoBus = await Producto.findById(id);
-
-            if (productoBus == null) {
-                return null;
-            } else {
-                return productoBus;
-            }
-        },
-
-        async getPedidos(obj) {
-            const pedidos = await Pedido.find();
-            return pedidos;
-        },
-
-        async getPedidoById(obj, { id }) {
-            const pedidoBus = await Pedido.findById(id);
-
-            if (pedidoBus == null) {
-                return null;
-            } else {
-                return pedidoBus;
-            }
-        }
     },
 
     Mutation: {
 
         async addUsuario(obj, { input }) {
-
             const usuario = new Usuario(input);
-
             await usuario.save();
-
             return usuario;
         },
 
@@ -106,42 +107,23 @@ const resolvers = {
             };
         },
 
-        async addProducto(obj, { input }) {
+        async updUsuario(obj, { id, input }) {
+            const usuario = await Usuario.findByIdAndUpdate(
+                id,
+                input,
+                { new: true }
+            );
 
+            return usuario;
+        },
+            async addProducto(obj, { input }) {
             const producto = new Producto(input);
-
             await producto.save();
-            
             return producto;
         },
 
-        async delProducto(obj, { id }) {
-            await Producto.deleteOne({ _id: id });
-
-            return {
-                message: "Producto Eliminado"
-            };
-        },
-
-
-        async addPedido(obj, { input }) {
-
-            const pedido = new Pedido(input);
-
-            await pedido.save();
-
-            return pedido;
-        },
-
-        async delPedido(obj, { id }) {
-            await Pedido.deleteOne({ _id: id });
-
-            return {
-                message: "Pedido Eliminado"
-            };
-        }
-
     }
+
 };
 
 let apolloServer = null;
