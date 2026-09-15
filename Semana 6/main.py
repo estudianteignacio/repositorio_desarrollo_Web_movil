@@ -12,18 +12,25 @@ from contextlib import asynccontextmanager
 MONGODB_URI = "mongodb://localhost:27017"
 DB_NAME = "bdunab2"
 COLL_NAME = "items"
+PEDIDOS_COLL_NAME = "pedidos"
 
 client: AsyncIOMotorClient | None = None
 db = None
 coll = None
+pedidos_coll = None
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    global client, db, coll
+    global client, db, coll, pedidos_coll
+
     client = AsyncIOMotorClient(MONGODB_URI)
     db = client[DB_NAME]
+
     coll = db[COLL_NAME]
+    pedidos_coll = db[PEDIDOS_COLL_NAME]
+
     yield
+
     client.close()
 
 app = FastAPI(title="FastAPI 8480", version="1.0.0", lifespan=lifespan)
@@ -45,6 +52,21 @@ class ItemIn(BaseModel):
 class ItemOut(Item):
     id: str
 
+class Pedido(BaseModel):
+    cliente: str = Field(min_length=1, description="Nombre del cliente")
+    productos: List[str] = Field(default_factory=list)
+    total: float = Field(gt=0, description="Total del pedido")
+    estado: str = "pendiente"
+
+
+class PedidoOut(Pedido):
+    id: str
+
+
+class EstadoPedido(BaseModel):
+    estado: str = Field(min_length=1, description="Nuevo estado del pedido")
+
+
 def doc_to_itemout(doc) -> ItemOut:
     return ItemOut(
         id=str(doc["_id"]),
@@ -52,6 +74,15 @@ def doc_to_itemout(doc) -> ItemOut:
         precio=doc["precio"],
         tags=doc.get("tags", []),
         activo=doc.get("activo", True)
+    )
+
+def doc_to_pedidout(doc) -> PedidoOut:
+    return PedidoOut(
+        id=str(doc["_id"]),
+        cliente=doc["cliente"],
+        productos=doc.get("productos", []),
+        total=doc["total"],
+        estado=doc.get("estado", "pendiente")
     )
 
 # EndPoints
@@ -125,5 +156,78 @@ async def eliminar_item(item_id: str):
 
     if res.deleted_count == 0:
         raise HTTPException(404, "Item no encontrado")
+
+    return None
+
+
+@app.get("/pedidos", response_model=List[PedidoOut], tags=["pedidos"])
+async def listar_pedidos():
+    cursor = pedidos_coll.find()
+
+    pedidos: List[PedidoOut] = []
+
+    async for doc in cursor:
+        pedidos.append(doc_to_pedidout(doc))
+
+    return pedidos
+
+@app.get("/pedidos/{pedido_id}", response_model=PedidoOut, tags=["pedidos"])
+async def obtener_pedido(pedido_id: str):
+    if not ObjectId.is_valid(pedido_id):
+        raise HTTPException(400, "id invalido")
+
+    doc = await pedidos_coll.find_one({
+        "_id": ObjectId(pedido_id)
+    })
+
+    if not doc:
+        raise HTTPException(404, "Pedido no encontrado")
+
+    return doc_to_pedidout(doc)
+
+@app.patch("/pedidos/{pedido_id}/estado", response_model=PedidoOut, tags=["pedidos"])
+async def actualizar_estado(pedido_id: str, estado: EstadoPedido):
+    if not ObjectId.is_valid(pedido_id):
+        raise HTTPException(400, "id invalido")
+
+    estados_validos = [
+        "pendiente",
+        "en preparación",
+        "enviado",
+        "entregado",
+        "cancelado"
+    ]
+
+    if estado.estado not in estados_validos:
+        raise HTTPException(
+            400,
+            "estado invalido"
+        )
+
+    res = await pedidos_coll.update_one(
+        {"_id": ObjectId(pedido_id)},
+        {"$set": {"estado": estado.estado}}
+    )
+
+    if res.matched_count == 0:
+        raise HTTPException(404, "Pedido no encontrado")
+
+    doc = await pedidos_coll.find_one({
+        "_id": ObjectId(pedido_id)
+    })
+
+    return doc_to_pedidout(doc)
+
+@app.delete("/pedidos/{pedido_id}", status_code=204, tags=["pedidos"])
+async def eliminar_pedido(pedido_id: str):
+    if not ObjectId.is_valid(pedido_id):
+        raise HTTPException(400, "id invalido")
+
+    res = await pedidos_coll.delete_one({
+        "_id": ObjectId(pedido_id)
+    })
+
+    if res.deleted_count == 0:
+        raise HTTPException(404, "Pedido no encontrado")
 
     return None
