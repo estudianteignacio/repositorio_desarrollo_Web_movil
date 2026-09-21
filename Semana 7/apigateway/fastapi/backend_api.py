@@ -4,6 +4,7 @@ app = FastAPI(
     title="Backend API Pasteles",
     description="API ubicada en localhost enrutada por API gateway",
 
+    
 )
 
 @app.get("/health")
@@ -11,7 +12,7 @@ def health():
     return {
         "status": "OK",
         "service": "Backend API"
-        }
+    }
 
 @app.get("/products")
 def products():
@@ -31,4 +32,12 @@ def orders():
             {"id": 2, "status": "pending"},
             {"id": 3, "status": "paid"}
         ]
+    }
+
+@app.get("/stats")
+def stats():
+    return {
+        "total_products": 3,
+        "total_orders": 3,
+        "paid_orders": 2
     }
