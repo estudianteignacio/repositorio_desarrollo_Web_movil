@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestros Productos - PASTELERÍA DULCE TENTACIÓN</title>
+    <link rel="shortcut icon" href="img/faviconpasteleria.ico" type="image/x-icon" />
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --pink-1: #FBB8C5; 
+            --pink-2: #F897AA; 
+            --pink-3: #F57A92; 
+            --pink-4: #F1607D; 
+            --pink-5: #EC4868;
+            --yellow-1: #FFE2BA; 
+            --yellow-2: #FFD59B; 
+            --yellow-3: #FFC97F; 
+            --yellow-4: #FFBE66; 
+            --yellow-5: #FEB44E;
+            --purple-1: #D4B1ED; 
+            --purple-2: #BD8DDE; 
+            --purple-3: #A76DCE; 
+            --purple-4: #9152BC; 
+            --purple-5: #7D3BAA;
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: #FFF9FA; 
+            color: #333333; 
+        }
+
+        .brand-title { 
+            font-family: 'Pacifico', cursive; 
+            color: var(--pink-5); 
+            font-size: 1.8rem; 
+            line-height: 1.1; 
+        }
+
+        .brand-subtitle { 
+            font-size: 0.82rem; 
+            color: var(--purple-5); 
+            font-weight: 600; 
+        }
+
+        .header-border { 
+            border-bottom: 3px solid var(--purple-1); 
+        }
+
+        .nav-btn { 
+            background-color: var(--yellow-1); 
+            color: var(--purple-5) !important; 
+            border: 2px solid var(--yellow-4); 
+            border-radius: 12px; font-weight: 700; 
+            padding: 6px 16px; transition: all 0.2s ease; 
+        }
+
+        .nav-btn:hover, .nav-btn.active { 
+            background-color: var(--yellow-3); 
+            color: var(--purple-5); 
+            transform: translateY(-2px); 
+        }
+
+        .top-icon-btn { 
+            border: 2px solid var(--purple-3); 
+            border-radius: 10px; padding: 8px 12px; 
+            color: var(--purple-5); 
+            background-color: #FFFFFF; position: relative; 
+            text-decoration: none; transition: background-color 0.2s; 
+        }
+
+        .top-icon-btn:hover { 
+            background-color: var(--pink-1); 
+            color: var(--purple-5); 
+        }
+
+        .badge-notification { 
+            position: absolute; top: -6px; 
+            right: -6px; 
+            background-color: var(--pink-5); 
+            color: white; border-radius: 50%; 
+            padding: 2px 6px; font-size: 0.7rem; 
+            font-weight: bold; 
+        }
+
+        /* Título e Interfaz de Productos */
+        .page-title { 
+            font-family: 'Pacifico', cursive; 
+            color: var(--purple-5); 
+            font-size: 2.5rem; 
+        }
+        
+        .filter-btn { 
+            border: 2px solid var(--purple-2); 
+            color: var(--purple-5); 
+            font-weight: 600; 
+            border-radius: 20px; 
+            padding: 6px 18px; 
+            background-color: white; 
+            transition: all 0.2s; 
+        }
+
+        .filter-btn.active, .filter-btn:hover { 
+            background-color: var(--purple-3); color: white; 
+            border-color: var(--purple-4); 
+        }
+
+        /* Tarjeta de Producto */
+        .product-card { 
+            border: 2px solid var(--pink-2); 
+            border-radius: 18px; background-color: white; 
+            overflow: hidden; 
+            transition: transform 0.2s, box-shadow 0.2s; 
+            height: 100%; display: flex; 
+            flex-direction: column; 
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 18px rgba(0,0,0,.15);
+        }
+
+        .product-img-wrapper { 
+            position: relative; height: 220px; 
+            overflow: hidden; background-color: #f8f8f8; 
+        }
+        
+        .product-img { 
+            width: 100%; height: 100%; 
+            object-fit: cover; 
+        }
+        
+        .badge-category { 
+            position: absolute; top: 12px; 
+            left: 12px; background-color: var(--yellow-4); 
+            color: #5a2775; 
+            font-weight: 700; 
+            font-size: 0.75rem; 
+            padding: 4px 10px; 
+            border-radius: 12px; 
+        }
+        
+        .product-body { 
+            padding: 1.25rem; display: flex; 
+            flex-direction: column; 
+            flex-grow: 1; 
+        }
+
+        .product-title { 
+            color: var(--purple-5); 
+            font-weight: 700; 
+            font-size: 1.15rem; 
+            margin-bottom: 0.5rem; 
+        }
+
+        .product-price { 
+            font-size: 1.3rem; 
+            font-weight: 800; 
+            color: var(--pink-5); 
+        }
+
+        .btn-add-cart { 
+            background-color: var(--pink-4); 
+            color: white; border: none; 
+            font-weight: 700; 
+            border-radius: 10px; 
+            padding: 8px 14px; 
+            transition: background-color 0.2s; 
+        }
+
+        .btn-add-cart:hover { 
+            background-color: var(--pink-5); 
+            color: white; 
+        }
+
+        .btn-detail { 
+            background-color: var(--yellow-1); 
+            color: var(--purple-5); 
+            border: 1px solid var(--yellow-4); 
+            font-weight: 600; border-radius: 10px; 
+            padding: 8px; 
+        }
+
+        .btn-detail:hover { 
+            background-color: var(--yellow-2); 
+        }
+
+        footer {
+            background-color: var(--purple-5); 
+            color: white; border-top: 5px solid var(--yellow-4); 
+            margin-top: 3rem; padding: 2rem 0; 
+        }
+    </style>
+</head>
+<body>
+
+    <header class="bg-white header-border sticky-top py-2">
+        <div class="container-fluid px-4">
+            <div class="row align-items-center gy-2">
+                <div class="col-lg-4 col-md-5 col-12">
+                    <a href="index.php" class="text-decoration-none">
+                        <h1 class="brand-title mb-0">Pastelería Dulce Tentación</h1>
+                        <span class="brand-subtitle">TORTAS PERSONALIZADAS Y PASTELES</span>
+                    </a>
+                </div>
+                <div class="col-lg-8 col-md-7 col-12">
+                    <div class="d-flex flex-wrap align-items-center justify-content-md-end justify-content-between gap-2">
+                        <a href="index.php" class="btn nav-btn">Inicio</a>
+                        <div class="dropdown">
+                            <button class="btn nav-btn dropdown-toggle active" type="button" data-bs-toggle="dropdown">
+                                Productos
+                            </button>
+                            <ul class="dropdown-menu border-2" style="border-color: var(--purple-2);">
+                                <li><a class="dropdown-item fw-semibold" href="#" onclick="filtrarCategoria('todas')">Ver Todo</a></li>
+                                <li><a class="dropdown-item fw-semibold" href="#" onclick="filtrarCategoria('personalizadas')">Tortas Personalizadas</a></li>
+                                <li><a class="dropdown-item fw-semibold" href="#" onclick="filtrarCategoria('frias')">Tortas Frías</a></li>
+                                <li><a class="dropdown-item fw-semibold" href="#" onclick="filtrarCategoria('cheesecakes')">Cheesecakes</a></li>
+                                <li><a class="dropdown-item fw-semibold" href="#" onclick="filtrarCategoria('mas')">Brownies & Más</a></li>
+                            </ul>
+                        </div>
+
+                        <a href="empresa.php" class="btn nav-btn">Nosotros</a>
+
+                        <!-- ICONOS -->
+                        <div class="d-flex align-items-center gap-2 ms-lg-2">
+                            <a href="login.php" class="top-icon-btn" title="Perfil/Cuenta">
+                                <i class="fas fa-user"></i>
+                            </a>
+                            <a class="top-icon-btn" title="Whatsapp / Chat" onclick="alert('¡Nuestro numero de WhatsApp es +56 9 1234 5678!');">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            <a href="carrito.php" class="top-icon-btn" title="Carrito">
+                                <i class="fas fa-shopping-basket"></i>
+                                <span class="badge-notification">1</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="container my-4">
+        <div class="text-center mb-4">
+            <h2 class="page-title">Catálogo de Productos</h2>
+            <p class="text-muted fs-5">Revisa nuestras tortas, cheesecakes y brownies disponibles para cumpleaños, reuniones y celebraciones</p>
+        </div>
+
+        <!-- Barra de Búsqueda -->
+        <div class="row gy-3 mb-4 align-items-center">
+            <div class="col-md-8">
+                <div class="d-flex flex-wrap gap-2 justify-content-center justify-content-md-start">
+                    <button class="btn filter-btn active" onclick="filtrarCategoria('todas', this)">Todos</button>
+                    <button class="btn filter-btn" onclick="filtrarCategoria('personalizadas', this)">Personalizadas</button>
+                    <button class="btn filter-btn" onclick="filtrarCategoria('frias', this)">Tortas Frías</button>
+                    <button class="btn filter-btn" onclick="filtrarCategoria('cheesecakes', this)">Cheesecakes</button>
+                    <button class="btn filter-btn" onclick="filtrarCategoria('mas', this)">Brownies & Más</button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" id="input-buscar" class="form-control border-2" placeholder="Buscar dulce..." style="border-color: var(--purple-2);" onkeyup="buscarProducto()">
+                    <button class="btn" type="button" style="background-color: var(--purple-3); color: white;">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenedor Productos -->
+        <div class="row g-4" id="contenedor-productos"></div>
+    </main>
+
+    <!-- Modal Detalle -->
+    <div class="modal fade" id="modalDetalle" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-3" style="border-color: var(--purple-2); border-radius: 18px;">
+                <div class="modal-header text-white" style="background-color: var(--purple-4); border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                    <h5 class="modal-title fw-bold" id="modalNombre">Detalle del Producto</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center p-4">
+                    <img id="modalImg" src="" class="img-fluid rounded mb-3" style="max-height: 200px; width: 100%; object-fit: cover;" alt="Producto">
+                    <h4 id="modalPrecio" class="fw-bold mb-2" style="color: var(--pink-5);"></h4>
+                    <p id="modalDescripcion" class="text-muted"></p>
+                </div>
+                <div class="modal-footer justify-content-between" style="border-top: 1px solid var(--purple-1);">
+                    <button type="button" class="btn btn-outline-secondary rounded-3" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-add-cart" id="modalBtnAgregar">
+                        <i class="fas fa-cart-plus me-1"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast de Notificación -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="toastCarrito" class="toast align-items-center text-white border-0" style="background-color: var(--purple-5); border-radius: 12px;" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body fw-semibold" id="toastMensaje">
+                    <i class="fas fa-check-circle text-warning me-2"></i> Producto agregado al carrito
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row gy-3 align-items-center">
+                <div class="col-md-4 col-12 text-center text-md-start">
+                    <span class="fw-bold">Copyright 2026</span>
+                    <p class="small text-white-50 mb-0">Pastelería Dulce Tentación S.A.</p>
+                </div>
+                <div class="col-md-4 col-12 text-center">
+                    <div><strong>Teléfono:</strong> +56 9 1234 5678</div>
+                    <div><strong>Local:</strong> Av. Avenida #123</div>
+                </div>
+                <div class="col-md-4 col-12 text-center text-md-end">
+                    <div class="d-inline-block text-start p-2 rounded" style="background-color: rgba(255,255,255,0.1); border: 1px solid var(--purple-2);">
+                        <div class="small"><strong>Horario de Atención:</strong></div>
+                        <div class="small">Lun - Sáb: 09:00 - 20:00 hrs</div>
+                        <div class="small">Dom: 10:00 - 15:00 hrs</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Arreglo de Objetos
+        const listaProductos = [
+            {
+                id: 1,
+                nombre: "Torta Chocolate & Manjar",
+                categoria: "frias",
+                etiqueta: "Torta Fría",
+                precio: "$18.990",
+                porciones: "15 porciones",
+                iconoRendimiento: "fa-users",
+                descripcionCorta: "Esponjoso bizcocho de cacao relleno con manjar casero y cobertura de ganache.",
+                descripcionLarga: "Esponjoso bizcocho de cacao relleno con capas de manjar artesanal y bañado en deliciosa cobertura de ganache 70% cacao. Ideal para cumpleaños.",
+                imagen: "img/torta_chocolate.jpg"
+            },
+            {
+                id: 2,
+                nombre: "Cheesecake Frutos Rojos",
+                categoria: "cheesecakes",
+                etiqueta: "Cheesecake",
+                precio: "$14.500",
+                porciones: "10 porciones",
+                iconoRendimiento: "fa-users",
+                descripcionCorta: "Cremosa base de queso crema suave con mermelada artesanal de frambuesa y mora.",
+                descripcionLarga: "Clásico cheesecake estilo New York preparado con queso crema horneado y una generosa capa superior de coulis casero de frutos rojos.",
+                imagen: "img/cheesecake.jpg"
+            },
+            {
+                id: 3,
+                nombre: "Torta Temática Infantil",
+                categoria: "personalizadas",
+                etiqueta: "Personalizada",
+                precio: "$28.000",
+                porciones: "20 porciones",
+                iconoRendimiento: "fa-users",
+                descripcionCorta: "Diseños a elección en fondant o buttercream para celebraciones especiales.",
+                descripcionLarga: "Personalizamos la torta del personaje favorito de tu hij@. Sabores de bizcocho a elección: Vainilla, Chocolate o Red Velvet.",
+                imagen: "img/torta_infantil.jpg"
+            },
+            {
+                id: 4,
+                nombre: "Box Brownies Surtidos",
+                categoria: "mas",
+                etiqueta: "Brownies",
+                precio: "$9.990",
+                porciones: "6 Unidades",
+                iconoRendimiento: "fa-box",
+                descripcionCorta: "Caja de 6 unidades melosas con toppings de nuez, Oreo y Nutella.",
+                descripcionLarga: "Exquisitos brownies de chocolate intenso con centro meloso. Incluye toppings variados: 2 de Nutella, 2 con Nueces y 2 con Galleta Oreo.",
+                imagen: "img/brownies.jpg"
+            }
+        ];
+
+        let carrito = JSON.parse(localStorage.getItem("carritoPasteleria")) || [];
+
+        // Función para renderizar las tarjetas HTML dinámicamente y que no esten puestas en bruto
+        function cargarProductos(productos) {
+            const contenedor = document.getElementById("contenedor-productos");
+            contenedor.innerHTML = ""; // Limpiar contenido previo
+
+            productos.forEach(producto => {
+                const tarjetaHtml = `
+                    <div class="col-lg-3 col-md-4 col-sm-6 producto-item" data-categoria="${producto.categoria}" data-nombre="${producto.nombre.toLowerCase()}">
+                        <div class="product-card">
+                            <div class="product-img-wrapper">
+                                <span class="badge-category">${producto.etiqueta}</span>
+                                <img src="${producto.imagen}" onerror="this.src='https://via.placeholder.com/300x220?text=${encodeURIComponent(producto.nombre)}'" class="product-img" alt="${producto.nombre}">
+                            </div>
+                            <div class="product-body">
+                                <h5 class="product-title">${producto.nombre}</h5>
+                                <p class="text-muted small flex-grow-1">${producto.descripcionCorta}</p>
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <span class="product-price">${producto.precio}</span>
+                                    <span class="small text-muted">
+                                        <i class="fas ${producto.iconoRendimiento} me-1"></i>${producto.porciones}
+                                    </span>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-add-cart" onclick="agregarAlCarrito('${producto.nombre}')">
+                                        <i class="fas fa-cart-plus me-1"></i> Agregar
+                                    </button>
+                                    <button class="btn btn-detail" onclick="verDetallePorId(${producto.id})">
+                                        Ver Detalle
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                contenedor.innerHTML += tarjetaHtml;
+            });
+        }
+
+        function filtrarCategoria(cat, elemento) {
+            if (elemento) {
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                elemento.classList.add('active');
+            }
+
+            const productosDOM = document.querySelectorAll('.producto-item');
+            productosDOM.forEach(prod => {
+                if (cat === 'todas' || prod.dataset.categoria === cat) {
+                    prod.style.display = 'block';
+                } else {
+                    prod.style.display = 'none';
+                }
+            });
+        }
+
+        function buscarProducto() {
+            let texto = document.getElementById("input-buscar").value.toLowerCase();
+            let productosDOM = document.querySelectorAll(".producto-item");
+
+            productosDOM.forEach(function(producto) {
+                let nombre = producto.dataset.nombre;
+                if (nombre.indexOf(texto) !== -1) {
+                    producto.style.display = "block";
+                } else {
+                    producto.style.display = "none";
+                }
+            });
+        }
+
+        function verDetallePorId(id) {
+            const producto = listaProductos.find(item => item.id === id);
+            if (!producto) return;
+
+            document.getElementById('modalNombre').innerText = producto.nombre;
+            document.getElementById('modalPrecio').innerText = producto.precio;
+            document.getElementById('modalDescripcion').innerText = producto.descripcionLarga;
+            document.getElementById('modalImg').src = producto.imagen;
+
+            document.getElementById('modalBtnAgregar').onclick = function() {
+                agregarAlCarrito(producto.nombre);
+                const modal = bootstrap.Modal.getInstance(document.getElementById('modalDetalle'));
+                modal.hide();
+            };
+
+            const modal = new bootstrap.Modal(document.getElementById('modalDetalle'));
+            modal.show();
+        }
+
+        function agregarAlCarrito(nombre) {
+            carrito.push(nombre);
+            localStorage.setItem("carritoPasteleria", JSON.stringify(carrito));
+
+            const toastEl = document.getElementById("toastCarrito");
+            document.getElementById("toastMensaje").innerHTML = `
+                <i class="fas fa-shopping-basket text-warning me-2"></i>
+                <b>${nombre}</b> agregado al carrito
+            `;
+
+            let toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            cargarProductos(listaProductos);
+        });
+    </script>
+</body>
+</html>
