@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PASTELERÍA DULCE TENTACIÓN</title>
     <link rel="shortcut icon" href="img/faviconpasteleria.ico" type="image/x-icon" />
+    
     <!-- Bootstrap 5.3 CSS PARA ICONOS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome Icons PARA ICONOS Y FUENTES -->
@@ -14,9 +17,7 @@
     
     <!-- SETUP DE PALETA DE COLORES Y ESTILOS-->
     <style>
-        
         :root {
-
             --pink-1: #FBB8C5;
             --pink-2: #F897AA;
             --pink-3: #F57A92;
@@ -75,25 +76,6 @@
             transform: translateY(-2px);
         }
 
-        .search-input {
-            border: 2px solid var(--purple-2);
-            border-radius: 20px 0 0 20px;
-            padding-left: 15px;
-        }
-
-        .search-btn {
-            background-color: var(--purple-3);
-            color: white;
-            border: 2px solid var(--purple-2);
-            border-left: none;
-            border-radius: 0 20px 20px 0;
-        }
-
-        .search-btn:hover {
-            background-color: var(--purple-5);
-            color: white;
-        }
-
         .top-icon-btn {
             border: 2px solid var(--purple-3);
             border-radius: 10px;
@@ -122,19 +104,6 @@
             font-weight: bold;
         }
 
-        .header-right-link {
-            color: var(--purple-5);
-            font-weight: 700;
-            text-decoration: none;
-            border-bottom: 2px solid var(--purple-2);
-            padding-bottom: 2px;
-        }
-
-        .header-right-link:hover {
-            color: var(--pink-5);
-            border-color: var(--pink-5);
-        }
-
         .hero-container {
             background-color: white;
             border: 3px solid var(--purple-2);
@@ -145,7 +114,6 @@
             margin-bottom: 2rem;
         }
 
-        /* MENU DE CATEGORIA */
         .category-list {
             list-style: none;
             padding-left: 0;
@@ -156,114 +124,6 @@
             margin-bottom: 8px;
             font-weight: 700;
             color: var(--purple-5);
-        }
-
-        .category-list > li::before {
-            content: "•";
-            color: var(--pink-4);
-            font-weight: bold;
-            display: inline-block;
-            width: 1em;
-            margin-left: -1em;
-            font-size: 1.4rem;
-        }
-
-        .sub-category-list {
-            list-style: none;
-            padding-left: 1.5rem;
-            font-weight: 500;
-            font-size: 0.95rem;
-            color: #555;
-        }
-
-        .sub-category-list li::before {
-            content: "-";
-            margin-right: 6px;
-            color: var(--yellow-5);
-        }
-
-        .category-list > li::before {
-            content: none !important; /* Desactiva el punto impreso con CSS */
-        }   
-
-        /* CAJA DENTRO DE LA CATEGORIA */
-        .cta-sketch-box {
-            border: 4px dashed var(--pink-4);
-            background-color: var(--yellow-1);
-            border-radius: 18px;
-            padding: 2.5rem 1.5rem;
-            text-align: center;
-            box-shadow: 6px 6px 0px var(--purple-2);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer;
-        }
-
-        .cta-sketch-box:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 9px 9px 0px var(--purple-3);
-            background-color: var(--yellow-2);
-        }
-
-        .cta-text {
-            font-family: 'Pacifico', cursive;
-            font-size: 2.2rem;
-            color: var(--purple-5);
-            line-height: 1.2;
-            text-transform: lowercase;
-        }
-
-        .product-card {
-            border: 3px solid var(--purple-2);
-            border-radius: 16px;
-            background-color: white;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-
-        .product-card:hover {
-            border-color: var(--pink-4);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(241, 96, 125, 0.15);
-        }
-
-        .product-img-holder {
-            height: 180px;
-            background-color: var(--purple-1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--purple-5);
-            font-size: 1.5rem;
-            font-weight: 700;
-            position: relative;
-        }
-
-        .product-card-body {
-            padding: 1.25rem;
-            text-align: center;
-        }
-
-        .product-title {
-            color: var(--purple-5);
-            font-weight: 700;
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .btn-product {
-            background-color: var(--pink-4);
-            color: white;
-            font-weight: 600;
-            border-radius: 10px;
-            border: none;
-            padding: 8px 20px;
-            transition: background-color 0.2s;
-        }
-
-        .btn-product:hover {
-            background-color: var(--pink-5);
-            color: white;
         }
 
         footer {
@@ -282,12 +142,6 @@
         footer a:hover {
             color: var(--pink-1);
         }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 8, 8, 0.15);
-            padding-top: 1rem;
-            margin-top: 1rem;
-        }
     </style>
 </head>
 <body>
@@ -298,7 +152,7 @@
                 
                 <!-- HEADER IZQUIERDA - LOGO -->
                 <div class="col-lg-4 col-md-5 col-12">
-                    <a class="text-decoration-none">
+                    <a href="index.html" class="text-decoration-none">
                         <h1 class="brand-title mb-0">Pastelería Dulce Tentación</h1>
                         <span class="brand-subtitle">TORTAS PERSONALIZADAS Y PASTELES</span>
                     </a>
@@ -308,7 +162,6 @@
                 <div class="col-lg-8 col-md-7 col-12">
                     <div class="d-flex flex-wrap align-items-center justify-content-md-end justify-content-between gap-2">
                         
-                        <!-- Botones de Navegación arriba a la derecha-->
                         <a href="index.html" class="btn nav-btn">Inicio</a>
                         
                         <div class="dropdown">
@@ -319,20 +172,19 @@
                                 <li><a class="dropdown-item fw-semibold" href="productos.html">Tortas Personalizadas</a></li>
                                 <li><a class="dropdown-item fw-semibold" href="productos.html">Tortas Frías</a></li>
                                 <li><a class="dropdown-item fw-semibold" href="productos.html">Cheesecakes</a></li>
-                                <li><a class="dropdown-item fw-semibold" href="productos.html">Brownies & Mas</a></li>
+                                <li><a class="dropdown-item fw-semibold" href="productos.html">Brownies & Más</a></li>
                             </ul>
                         </div>
 
-                        <a href="empresa.html" class="btn nav-btn">Nosotros</a>
-
-                       
+                        <!-- Se cambió 'empresa.html' a 'Nosotros.html' para mantener consistencia con la ruta -->
+                        <a href="Nosotros.html" class="btn nav-btn">Nosotros</a>
 
                         <!-- ICONOS -->
                         <div class="d-flex align-items-center gap-2 ms-lg-2">
                             <a href="login.html" class="top-icon-btn" title="Perfil/Cuenta">
                                 <i class="fas fa-user"></i>
                             </a>
-                            <a class="top-icon-btn" title="Whatsapp / Chat" onclick="alert('¡Nuestro numero de WhatsApp es +56 9 1234 5678!');">
+                            <a href="#" class="top-icon-btn" title="Whatsapp / Chat" onclick="alert('¡Nuestro número de WhatsApp es +56 9 1234 5678!');">
                                 <i class="fab fa-whatsapp"></i>
                             </a>
                             <a href="login.html" class="top-icon-btn" title="Mensajes">
@@ -354,24 +206,19 @@
     <main class="container my-4">
         <section class="hero-container">
             <div class="row align-items-center gy-4">
-                
-
                 <div class="col-lg-6 col-md-6 col-12 ps-lg-4">
                     <ul class="category-list list-unstyled" style="list-style: none !important; padding-left: 0 !important;">
-                        <li><span class="fs-1">¿QUIENES SOMOS?</span></li>
-                        <li>Nuestra Historia empieza con un modesto taller artesanal de tortas personalizadas en 1987.</li>
-                        </li>
+                        <li><span class="fs-1">¿QUIÉNES SOMOS?</span></li>
+                        <li>Nuestra historia empieza con un modesto taller artesanal de tortas personalizadas en 1987.</li>
                     </ul>
                 </div>
 
-                <div class="col-lg-6 col-md-12 col-12">
-                    <img src="img/fotoantigua.jpg" alt="Foto2" class="d-block w-100">
-                        </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    <img src="img/fotoantigua.jpg" alt="Foto Antigua" class="d-block w-100 rounded">
                 </div>
-
             </div>
         </section>
-
+    </main>
 
     <footer>
         <div class="container">
@@ -384,8 +231,8 @@
 
                 <!-- Teléfono y Ubicación -->
                 <div class="col-md-4 col-12 text-center">
-                    <div><i style="color: var(--yellow-4);"></i><strong>Teléfono:</strong> +56 9 1234 5678</div>
-                    <div><i style="color: var(--pink-3);"></i><strong>Local:</strong> Av. Avenida #123</div>
+                    <div><strong>Teléfono:</strong> +56 9 1234 5678</div>
+                    <div><strong>Local:</strong> Av. Avenida #123</div>
                 </div>
 
                 <!-- Horario -->
