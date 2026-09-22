@@ -272,31 +272,31 @@ $direcciones = [
                     <div class="d-flex flex-wrap align-items-center justify-content-md-end justify-content-between gap-2">
                         
                         <!-- Botones de Navegación arriba a la derecha-->
-                        <a href="index.php" class="btn nav-btn">Inicio</a>
+                        <a href="index.html" class="btn nav-btn">Inicio</a>
                         
                         <div class="dropdown">
                             <button class="btn nav-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                 Productos
                             </button>
                             <ul class="dropdown-menu border-2" style="border-color: var(--purple-2);">
-                                <li><a class="dropdown-item fw-semibold" href="productos.php">Tortas Personalizadas</a></li>
-                                <li><a class="dropdown-item fw-semibold" href="productos.php">Tortas Frías</a></li>
-                                <li><a class="dropdown-item fw-semibold" href="productos.php">Cheesecakes</a></li>
-                                <li><a class="dropdown-item fw-semibold" href="productos.php">Brownies & Mas</a></li>
+                                <li><a class="dropdown-item fw-semibold" href="productos.html">Tortas Personalizadas</a></li>
+                                <li><a class="dropdown-item fw-semibold" href="productos.html">Tortas Frías</a></li>
+                                <li><a class="dropdown-item fw-semibold" href="productos.html">Cheesecakes</a></li>
+                                <li><a class="dropdown-item fw-semibold" href="productos.html">Brownies & Mas</a></li>
                             </ul>
                         </div>
 
-                        <a href="empresa.php" class="btn nav-btn">Nosotros</a>
+                        <a href="empresa.html" class="btn nav-btn">Nosotros</a>
 
                         <!-- ICONOS -->
                         <div class="d-flex align-items-center gap-2 ms-lg-2">
-                            <a href="login.php" class="top-icon-btn" title="Perfil/Cuenta">
+                            <a href="login.html" class="top-icon-btn" title="Perfil/Cuenta">
                                 <i class="fas fa-user"></i>
                             </a>
                             <a class="top-icon-btn" title="Whatsapp / Chat" onclick="alert('¡Nuestro numero de WhatsApp es +56 9 1234 5678!');">
                                 <i class="fab fa-whatsapp"></i>
                             </a>
-                            <a href="carrito.php" class="top-icon-btn" title="Carrito">
+                            <a href="carrito.html" class="top-icon-btn" title="Carrito">
                                 <i class="fas fa-shopping-basket"></i>
                                 <span class="badge-notification">1</span>
                             </a>
@@ -386,20 +386,32 @@ $direcciones = [
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($pedidos as$pedido): ?>
-                                            <tr>
-                                                <td class="fw-bold"><?php echo $pedido->id; ?></td>
-                                                <td><?php echo $pedido->fecha; ?></td>
-                                                <td><?php echo $pedido->productos; ?></td>
-                                                <td class="fw-bold text-danger"><?php echo $pedido->getTotalFormateado(); ?></td>
-                                                <td>
-                                                    <span class="status-badge status-<?php echo $pedido->estado; ?>">
-                                                        <i class="fas <?php echo ($pedido->estado === 'entregado') ? 'fa-check-circle' : 'fa-clock'; ?> me-1"></i>
-                                                        <?php echo $pedido->estadoTexto; ?>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
+                                        <tr>
+    <td class="fw-bold">101</td>
+    <td>2026-03-21</td>
+    <td>Camiseta Algodón (x2), Jean Azul (x1)</td>
+    <td class="fw-bold text-danger">$45.000</td>
+    <td>
+        <span class="status-badge status-entregado">
+            <i class="fas fa-check-circle me-1"></i>
+            Entregado
+        </span>
+    </td>
+</tr>
+
+<!-- Ejemplo 2: Pedido Pendiente -->
+<tr>
+    <td class="fw-bold">102</td>
+    <td>2026-03-21</td>
+    <td>Zapatillas Deportivas (x1)</td>
+    <td class="fw-bold text-danger">$62.500</td>
+    <td>
+        <span class="status-badge status-pendiente">
+            <i class="fas fa-clock me-1"></i>
+            Pendiente
+        </span>
+    </td>
+</tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -494,7 +506,6 @@ $direcciones = [
                 elementoNombre.innerText = nombreCompleto;
             }
         }
-
         function actualizarDatos(event) {
             event.preventDefault();
 
