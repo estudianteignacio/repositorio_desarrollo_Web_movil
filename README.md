@@ -8,3 +8,4 @@ Cuanta con una pagina principal donde puedes dirigirte a las distintas areas con
 
 Francisca Veliz 
 Ignacio Figueroa
+Usuario "BerryMaddy" tambien es Ignacio Figueroa, un tema que no he podido arreglar en visual studio code me registra como 2 usuarios.
