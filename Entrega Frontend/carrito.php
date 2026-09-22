@@ -64,7 +64,7 @@
             padding: 6px 16px;
             transition: all 0.2s ease; 
         }
-        <!-- turur -->
+
         .nav-btn:hover { 
             background-color: var(--yellow-3); 
             color: var(--purple-5); 
@@ -85,7 +85,8 @@
             color: var(--purple-5); 
         }
 
-        .badge-notification { position: absolute; 
+        .badge-notification { 
+            position: absolute; 
             top: -6px; right: -6px; 
             background-color: var(--pink-5); 
             color: white; 
@@ -101,7 +102,7 @@
             font-size: 2.2rem; 
         }
 
-        .cart-card,.summary-card {
+        .cart-card, .summary-card {
             border: 3px solid var(--purple-2);
             border-radius: 16px;
             background-color: white;
@@ -109,13 +110,15 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             transition: .2s;
         }
-        .cart-card:hover,.summary-card:hover{
+
+        .cart-card:hover, .summary-card:hover {
             box-shadow: 0 8px 18px rgba(0,0,0,.12);
         }
 
         .cart-item { 
             border-bottom: 2px dashed var(--pink-2);
-            padding-bottom: 1rem; margin-bottom: 1rem; 
+            padding-bottom: 1rem; 
+            margin-bottom: 1rem; 
         }
 
         .cart-item:last-child { 
@@ -147,9 +150,7 @@
             color: white; border-top: 5px solid var(--yellow-4); 
             margin-top: 3rem; padding: 2rem 0; 
         }
-
     </style>
-
 </head>
 
 <body>
@@ -160,7 +161,7 @@
                 
                 <!-- HEADER IZQUIERDA - LOGO -->
                 <div class="col-lg-4 col-md-5 col-12">
-                    <a class="text-decoration-none">
+                    <a class="text-decoration-none" href="index.php">
                         <h1 class="brand-title mb-0">Pastelería Dulce Tentación</h1>
                         <span class="brand-subtitle">TORTAS PERSONALIZADAS Y PASTELES</span>
                     </a>
@@ -169,8 +170,6 @@
                 <!-- HEADER DERECHA - BOTONES DE NAVEGACION -->
                 <div class="col-lg-8 col-md-7 col-12">
                     <div class="d-flex flex-wrap align-items-center justify-content-md-end justify-content-between gap-2">
-                        
-                        <!-- Botones de Navegación arriba a la derecha-->
                         <a href="index.php" class="btn nav-btn">Inicio</a>
                         
                         <div class="dropdown">
@@ -197,7 +196,7 @@
                             </a>
                             <a href="carrito.php" class="top-icon-btn" title="Carrito">
                                 <i class="fas fa-shopping-basket"></i>
-                                <span class="badge-notification">1</span>
+                                <span class="badge-notification" id="badge-carrito">0</span>
                             </a>
                         </div>
                     </div>
@@ -206,91 +205,31 @@
         </div>
     </header>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <main class="container my-4">
-        <h2 class="page-title mb-4">
-            Mi Carrito de Compras
-        </h2>
+        <h2 class="page-title mb-4">Mi Carrito de Compras</h2>
         <form id="cart-form" onsubmit="procesarPago(event)">
             <div class="row g-4">
-                <!-- Lista de Productos -->
+                
                 <div class="col-lg-7">
                     <div class="cart-card">
-                        <h4 class="fw-bold mb-3" 
-                            style="color: var(--purple-5);">
+                        <h4 class="fw-bold mb-3" style="color: var(--purple-5);">
                             Productos Seleccionados
                         </h4>
-                        <div class="cart-item d-flex align-items-center justify-content-between">
-                            <div>
-                                <h5 class="cart-item-title mb-1">Torta de Chocolate & Manjar</h5>
-                                <p class="text-muted small mb-0">Para 15 personas</p>
-                                <span class="fw-bold text-danger">$18.990</span>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <input type="number" 
-                                    class="form-control text-center cantidad-input" ]
-                                    value="1" min="1" style="width: 70px;" 
-                                    \onchange="calcularTotal()">
-                                <button type="button" 
-                                    class="btn btn-outline-danger btn-sm" 
-                                    onclick="eliminarProducto(this)">
-                                    <i class="fas fa-trash">
-                                    </i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div class="cart-item d-flex align-items-center justify-content-between">
-                            <div>
-                                <h5 class="cart-item-title mb-1">Cheesecake de Frutos Rojos</h5>
-                                <p class="text-muted small mb-0">Porción familiar</p>
-                                <span class="fw-bold text-danger">$14.500</span>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <input type="number" 
-                                    class="form-control text-center cantidad-input" 
-                                    value="1" min="1" 
-                                    style="width: 70px;" 
-                                    onchange="calcularTotal()">
-                                <button type="button" 
-                                    class="btn btn-outline-danger btn-sm" 
-                                    onclick="eliminarProducto(this)">
-                                    <i 
-                                        class="fas fa-trash">
-                                    </i>
-                                </button>
-                            </div>
-                        </div>
+                        
+                        <div id="contenedor-items"></div>
                     </div>
                 </div>
 
                 <!-- Método de Pago y Dirección -->
                 <div class="col-lg-5">
                     <div class="summary-card">
-                        <h4 class="fw-bold mb-3" 
-                        style="color: var(--purple-5);"
-                        >Método de Pago
-                        </h4>
+                        <h4 class="fw-bold mb-3" style="color: var(--purple-5);">Método de Pago</h4>
                         <div class="mb-3">
-                            <select class="form-select border-2" 
-                                id="metodo-pago" 
-                                required style="border-color: var(--purple-2);">
-                                <option 
-                                    value="" selected disabled>
-                                    Selecciona método de pago...
-                                </option>
-                                <option 
-                                    value="tarjeta">
-                                    Tarjeta de Débito / Crédito (Webpay)
-                                </option>
-                                <option 
-                                    value="transferencia">
-                                    Transferencia Bancaria
-                                </option>
-                                <option 
-                                    value="efectivo">
-                                    Efectivo al retirar
-                                </option>
+                            <select class="form-select border-2" id="metodo-pago" required style="border-color: var(--purple-2);">
+                                <option value="" selected disabled>Selecciona método de pago...</option>
+                                <option value="tarjeta">Tarjeta de Débito / Crédito (Webpay)</option>
+                                <option value="transferencia">Transferencia Bancaria</option>
+                                <option value="efectivo">Efectivo al retirar</option>
                             </select>
                         </div>
 
@@ -303,7 +242,7 @@
                         
                         <div class="d-flex justify-content-between fs-5 fw-bold mb-3">
                             <span>Total Estimado:</span>
-                            <span id="total-precio" style="color: var(--pink-5);">$33.490</span>
+                            <span id="total-precio" style="color: var(--pink-5);">$0</span>
                         </div>
 
                         <button type="submit" class="btn btn-custom w-100 fs-5">Pagar Ahora</button>
@@ -337,55 +276,117 @@
     </footer>
 
     <script>
-        function calcularTotal(){
-            let total = 0;
-                document.querySelectorAll(".cart-item")
-                .forEach(item => {
-            let precio =
-                item.querySelector(".text-danger")
-                .innerText
-                .replace("$","")
-                .replace(".","");
-            let cantidad =
-                item.querySelector(".cantidad-input").value;
-                total += parseInt(precio) * cantidad;
-            });
-            document.getElementById("total-precio")
-                .innerText =
-                "$" + total.toLocaleString("es-CL");
-        }
-        function procesarPago(event){
-            event.preventDefault();
-            let metodo =
-                document.getElementById("metodo-pago").value;
-            let direccion =
-                document.getElementById("direccion")
-                .value
-                .trim();
-            if(direccion === "" || metodo === ""){
-                alert(
-                "Debes completar la dirección y seleccionar un método de pago."
-                );
-            return;
+        // Arreglo de objetos en el carrito
+        const productosCarrito = [
+            {
+                id: 1,
+                nombre: "Torta de Chocolate & Manjar",
+                detalle: "Para 15 personas",
+                precio: 18990,
+                cantidad: 1
+            },
+            {
+                id: 2,
+                nombre: "Cheesecake de Frutos Rojos",
+                detalle: "Porción familiar",
+                precio: 14500,
+                cantidad: 1
             }
-            alert(
-                "Pedido registrado correctamente. Gracias por tu compra."
-            );
+        ];
+
+
+        function renderizarCarrito() {
+            const contenedor = document.getElementById("contenedor-items");
+            contenedor.innerHTML = "";
+
+            if (productosCarrito.length === 0) {
+                contenedor.innerHTML = `<p class="text-muted my-3 text-center">Tu carrito está vacío.</p>`;
+                document.getElementById("total-precio").innerText = "$0";
+                document.getElementById("badge-carrito").innerText = "0";
+                return;
+            }
+
+            productosCarrito.forEach((producto, index) => {
+                const itemHTML = `
+                    <div class="cart-item d-flex align-items-center justify-content-between" data-index="${index}">
+                        <div>
+                            <h5 class="cart-item-title mb-1">${producto.nombre}</h5>
+                            <p class="text-muted small mb-0">${producto.detalle}</p>
+                            <span class="fw-bold text-danger">$${producto.precio.toLocaleString("es-CL")}</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="number" 
+                                class="form-control text-center cantidad-input" 
+                                value="${producto.cantidad}" 
+                                min="1" 
+                                style="width: 70px;" 
+                                oninput="actualizarCantidad(${index}, this.value)"
+                                onchange="actualizarCantidad(${index}, this.value)">
+                            <button type="button" 
+                                class="btn btn-outline-danger btn-sm" 
+                                onclick="eliminarProducto(${index})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                contenedor.innerHTML += itemHTML;
+            });
+
+            calcularTotal();
+        }
+
+        function actualizarCantidad(index, nuevaCantidad) {
+            let cant = parseInt(nuevaCantidad);
+            if (isNaN(cant) || cant < 1) cant = 1;
+            
+            productosCarrito[index].cantidad = cant;
+            calcularTotal();
+        }
+
+        function calcularTotal() {
+            let total = 0;
+            let totalItems = 0;
+
+            productosCarrito.forEach(producto => {
+                total += producto.precio * producto.cantidad;
+                totalItems += producto.cantidad;
+            });
+
+            document.getElementById("total-precio").innerText = "$" + total.toLocaleString("es-CL");
+            document.getElementById("badge-carrito").innerText = totalItems;
+        }
+
+        function eliminarProducto(index) {
+            let respuesta = confirm("¿Eliminar este producto del carrito?");
+            if (!respuesta) return;
+
+            productosCarrito.splice(index, 1);
+            renderizarCarrito();
+        }
+
+        function procesarPago(event) {
+            event.preventDefault();
+            
+            if (productosCarrito.length === 0) {
+                alert("No tienes productos en el carrito.");
+                return;
+            }
+
+            let metodo = document.getElementById("metodo-pago").value;
+            let direccion = document.getElementById("direccion").value.trim();
+
+            if (direccion === "" || metodo === "") {
+                alert("Debes completar la dirección y seleccionar un método de pago.");
+                return;
+            }
+
+            alert("Pedido registrado correctamente. Gracias por tu compra.");
             window.location.href = "index.php";
         }
 
-        function eliminarProducto(btn){
-            let respuesta =
-            confirm("¿Eliminar este producto del carrito?");
-            if(!respuesta){
-                return;
-            }
-            const item =
-                btn.closest(".cart-item");
-                item.remove();
-                calcularTotal();
-                alert("Producto eliminado correctamente.");
-        }
+        // Cargar los productos al iniciar la página
+        document.addEventListener("DOMContentLoaded", renderizarCarrito);
     </script>
 </body>
 </html>
