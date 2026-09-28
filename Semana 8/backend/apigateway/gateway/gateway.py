@@ -1,6 +1,9 @@
 import os
 import secrets
 import httpx
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 #vault server - backend
 
@@ -20,15 +23,15 @@ from fastapi.security import(
 )
 
 app = FastAPI(
-    title="Local API Gateway",
+    title="API Gateway Pasteleria",
 )
 
 security = HTTPBearer(
     auto_error=False
 )
 
-VAULT_ADRR = os.getenv( # Esta seguro con una politica SELINUX
-    "VAULT_ADDR", "HTTP://localhost:8200"
+VAULT_ADDR = os.getenv( # Esta seguro con una politica SELINUX
+    "VAULT_ADDR", "http://localhost:8200"
 )
 
 VAULT_TOKEN = os.getenv(
@@ -42,7 +45,7 @@ if not VAULT_TOKEN:
 
 async def get_gateway_secrets():
     url = (
-        f"{VAULT_ADRR}" #HTTP://localhost:8200"
+        f"{VAULT_ADDR}" #HTTP://localhost:8200"
         "/v1/secret/data/gateway"
     )
     headers = {
@@ -83,15 +86,21 @@ async def autenticate_client( #para que cada vez que alguien llame al gateway, s
             detail="Token de autorizacion invalido"
         )
     return{
-        "client_id": "student-client", #aqui se colocan los servicios de autentificacion e identificacion del usuario
+        "client_id": "pasteleria-app", #aqui se colocan los servicios de autentificacion e identificacion del usuario
         "backend_secret": vault_secrets["backend_shared_secret"]
     }
-
 
 
 BACKEND_URL = "http://localhost:9000"
 BACKEND_URL2 = "http://localhost:9100"
 
+@app.get("/gateway-health")
+def gateway_health():
+    return {
+        "status": "OK",
+        "service": "Gateway Pastelería"
+        
+    }
 
 @app.api_route(
     "/api/{path:path}", #product health orders
@@ -101,22 +110,23 @@ BACKEND_URL2 = "http://localhost:9100"
 async def proxy(
     path: str,
     request: Request,
-    auth = Depends(autenticate_client)
-
+    auth=Depends(autenticate_client)
 ):
-    target_url = (
-        f"{BACKEND_URL}/{path}" # Call http://localhost:8000/api/products -> http://localhost:9000/products
+    logging.info(
+        f"Cliente {auth['client_id']} accediendo a {path}"
     )
+
+    target_url = f"{BACKEND_URL}/{path}"
     body = await request.body()
     gateway_headers = {
         "X-Gateway-Secret":
         auth["backend_secret"], #gateway-api-secret-456
         "X-Authenticated-client":
-        auth["client-id"], #student-client es reemplazado por un Autenticador
+        auth["client_id"], #student-client es reemplazado por un Autenticador
     }
     content_type = request.headers.get("content-type")
     if content_type:
-        gateway_headers["content_type"] = content_type
+        gateway_headers["Content-Type"] = content_type
 
     try:
         async with httpx.AsyncClient(timeout = 10.0) as client:
@@ -132,8 +142,8 @@ async def proxy(
         raise HTTPException(status_code=502,detail="Backend no disponible, womp womp")
 
     response_headers = {}
-    if "content_type" in upstream.headers:
-        response_headers["content_type"] = upstream.headers["content_type"]
+    if "content-type" in upstream.headers:
+        response_headers["content-type"] = upstream.headers["content-type"]
     return Response(
         content=upstream.content,
         status_code=upstream.status_code,
