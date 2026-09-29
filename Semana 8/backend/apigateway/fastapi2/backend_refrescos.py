@@ -5,22 +5,25 @@ app = FastAPI(
     description="API ubicada en localhost enrutada por API gateway",
 )
 
+
 @app.get("/health")
 def health():
     return {
         "status": "OK",
-        "service": "Backend Refrescos"
+        "service": "Backend API Refrescos"
     }
+
 
 @app.get("/products")
 def products():
     return {
         "products": [
-            {"id": 1, "name": "Coca Cola", "price": 20.0},
-            {"id": 2, "name": "Sprite", "price": 18.0},
-            {"id": 3, "name": "Fanta", "price": 18.0}
+            {"id": 1, "name": "Coca Cola", "price": 20.0, "category": "refrescos"},
+            {"id": 2, "name": "Sprite", "price": 18.0, "category": "refrescos"},
+            {"id": 3, "name": "Fanta", "price": 18.0, "category": "refrescos"}
         ]
     }
+
 
 @app.get("/orders")
 def orders():
@@ -29,4 +32,23 @@ def orders():
             {"id": 1, "status": "paid"},
             {"id": 2, "status": "pending"}
         ]
+    }
+
+
+@app.get("/stats")
+def stats():
+    return {
+        "service": "refrescos",
+        "total_products": 3,
+        "total_orders": 2,
+        "paid_orders": 1,
+        "pending_orders": 1
+    }
+
+
+@app.get("/info")
+def info():
+    return {
+        "service": "Backend API Refrescos",
+        "category": "Bebidas"
     }
