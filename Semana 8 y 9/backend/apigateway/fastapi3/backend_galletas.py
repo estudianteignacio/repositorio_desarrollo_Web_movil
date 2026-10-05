@@ -1,21 +1,24 @@
 from fastapi import Depends, FastAPI, Header
-#Creacion FastAPI
+
 app = FastAPI(
     title="Backend API Refrescos",
     description="API ubicada en localhost enrutada por API gateway",
 )
-#Endpoint health
+
+
 @app.get("/health")
 def health():
     return {
         "status": "OK",
         "service": "Backend API Refrescos"
     }
-#Endpoint catalogo
+
+
 @app.get(
         "/products",
         dependencies=[Depends(verify_gateway)]
         )
+
 def products(
     x_authenticated_client: str | None = Header(
         default=None
@@ -41,7 +44,8 @@ def products(
             {"id": 3, "name": "Fanta", "price": 18.0, "category": "refrescos"}
         ]
     }
-#Endpoint consultar
+
+
 @app.get(
         "/orders",
         dependencies=[Depends(verify_gateway)]
@@ -72,7 +76,7 @@ def orders(
                 {"id": 3, "status": "paid"}
             ]
         }
-#Endpoint estadistica
+
 @app.get("/stats")
 def stats():
     return {
@@ -82,7 +86,8 @@ def stats():
         "paid_orders": 1,
         "pending_orders": 1
     }
-#Endpoint informativo
+
+
 @app.get("/info")
 def info():
     return {
