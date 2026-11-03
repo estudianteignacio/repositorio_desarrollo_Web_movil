@@ -29,7 +29,9 @@ def interpretar(cuerpo: str, headers: dict): #dict es diccionario
 
         identificador = cuerpo[0:6]
         cliente = cuerpo[6:26].rstrip()
-        monto = cuerpo[26:36]
+        monto = cuerpo[26:36].rstrip()
+        producto = cuerpo[36:76].rstrip()
+        cantidad = cuerpo[76:127]
 
         if not (
             identificador.isascii()
@@ -85,7 +87,9 @@ class Escuchador(stomp.ConnectionListener):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Productor STOMP")
+    parser = argparse.ArgumentParser(description="Consumidor STOMP")
+    parser.add_argument("--producto", default="Torta Chocolate")
+    parser.add_argument("--cantidad", default="1")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", default=61613)
     parser.add_argument("--usuario", default="demo")
