@@ -1,0 +1,12 @@
+{
+  "name": "graphql-gateway",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "@apollo/server": "^4.9.5",
+    "cors": "^2.8.6",
+    "express": "^4.22.3",
+    "graphql": "^16.15.0",
+    "mongoose": "^9.12.1"
+  }
+}
